@@ -18,7 +18,7 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 import os
 
-LOGO_PATH = "logo_brvm.png"
+LOGO_PATH = "logo_brvm.jpg"
 
 if os.path.exists(LOGO_PATH):
     col_logo, col_title = st.columns([1, 4])
