@@ -12,6 +12,24 @@ st.set_page_config(
 )
 
 # ─────────────────────────────────────────────
+#  LOGO
+#  Place le fichier logo (ex: logo_brvm.png) à côté de ce script,
+#  ou dans un sous-dossier "assets/", et ajuste LOGO_PATH si besoin.
+# ─────────────────────────────────────────────
+import os
+
+LOGO_PATH = "logo_brvm.png"
+
+if os.path.exists(LOGO_PATH):
+    col_logo, col_title = st.columns([1, 4])
+    with col_logo:
+        st.image(LOGO_PATH, width=90)
+    with col_title:
+        st.markdown("### Chatbot BRVM")
+else:
+    st.title("💹 Chatbot BRVM")
+
+# ─────────────────────────────────────────────
 #  MOTEUR DE RÈGLES (mots-clés / regex)
 #  Format : (motif_regex, [liste de réponses possibles])
 #  IMPORTANT : le motif fourre-tout (.*) doit rester en DERNIER
@@ -69,7 +87,6 @@ if "messages" not in st.session_state:
 # ─────────────────────────────────────────────
 #  INTERFACE
 # ─────────────────────────────────────────────
-st.title("💹 Chatbot BRVM")
 st.caption("Démo — moteur basé sur mots-clés (règles + regex). Version future : modèle plus intelligent.")
 
 # Affichage de l'historique
