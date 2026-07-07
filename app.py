@@ -1,6 +1,15 @@
 import streamlit as st
 import re
 import random
+import unicodedata
+
+
+def sans_accents(texte: str) -> str:
+    """Enlève les accents pour rendre le matching insensible aux accents."""
+    return "".join(
+        c for c in unicodedata.normalize("NFKD", texte)
+        if not unicodedata.combining(c)
+    )
 
 # ─────────────────────────────────────────────
 #  CONFIGURATION DE LA PAGE
@@ -41,7 +50,7 @@ PAIRS = [
          "Bonjour, comment puis-je vous aider ?"]),
 
     (r"c'?est quoi la brvm\??",
-        ["La BRVM est la Bourse Régionale des Valeurs Mobilières, commune aux 8 pays de l'UEMOA."]),
+        ["La BRVM est la Bourse Régionale des Valeurs Mobilières, commune aux 8 pays de l'UEMOA. C'est le lieu ou s'echange les actions et les oblogations"]),
 
     (r"ou se trouve la brvm\??|où se trouve la brvm\??",
         ["Le siège de la BRVM est situé à Abidjan, en Côte d'Ivoire, avec des antennes de représentation dans les différents pays de l'UEMOA."]),
@@ -55,8 +64,20 @@ PAIRS = [
     (r"c'?est quoi une obligation\??",
         ["Une obligation est un titre de créance : en l'achetant, vous prêtez de l'argent à une entreprise ou un État, qui vous rembourse avec des intérêts."]),
 
+    (r"(?=.*sgi)(?=.*trouv)",
+        ["Dans quel pays vous trouvez-vous\?"]),
+
+    (r"Benin", ["SGI BENIN, AFRICABOURSE, AGI"]),
+    (r"Burkina", ["CORIS BOURSE, SBIF, SA2IF"]),
+    (r"Cote d'ivoire", ["Vous pouvez consulter la liste officielle et à jour des SGI en Côte d'Ivoire sur brvm.org (Annuaire Officiel de l'APSGI)."]),
+    (r"Mali",["SGI MALI, CIFA BOURSE, GLOBAL CAPITAL"]),
+    (r"Niger",["SGI NIGER"]),
+    (r"Senegal",["CGF BOURSE,FGI"]),
+    (r"Togo",["SGI TOGO, CGF BOURSE"]),
+    (r"Guinée-Bissau",["Il y'a pas de SGI agrée pour le moment"]),
+
     (r"horaire|heure de cotation|quand.*cot",
-        ["La BRVM cote du lundi au vendredi, de 9h15 à 15h20 (heure d'Abidjan), hors jours fériés."]),
+        ["La BRVM cote du lundi au vendredi, de 9h00 à 15h30 (heure d'Abidjan), hors jours fériés."]),
 
     (r"merci",
         ["Je vous en prie !", "Avec plaisir !"]),
@@ -70,9 +91,10 @@ PAIRS = [
 
 def trouver_reponse(message: str) -> str:
     """Parcourt les règles dans l'ordre et renvoie la première réponse qui matche."""
-    message = message.strip().lower()
+    message = sans_accents(message.strip().lower())
     for motif, reponses in PAIRS:
-        if re.fullmatch(motif, message) or re.search(motif, message):
+        motif_norm = sans_accents(motif)
+        if re.fullmatch(motif_norm, message, re.IGNORECASE) or re.search(motif_norm, message, re.IGNORECASE):
             return random.choice(reponses)
     return "Désolé, je ne comprends pas votre question."
 
@@ -81,7 +103,7 @@ def trouver_reponse(message: str) -> str:
 # ─────────────────────────────────────────────
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "assistant", "content": "Bonjour 👋 Je suis le chatbot de la BRVM. Posez-moi une question (ex : *c'est quoi la BRVM ?*, *comment investir à la BRVM*, *horaires de cotation*)."}
+        {"role": "assistant", "content": "Bonjour 👋 Je suis le chatbot de la BRVM. Posez-moi une question (ex : *c'est quoi la BRVM ?*, *comment investir à la BRVM*, *horaires de cotation*, *Ou je peux trouver une SGI*)."}
     ]
 
 # ─────────────────────────────────────────────
