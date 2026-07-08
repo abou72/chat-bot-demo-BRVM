@@ -62,10 +62,10 @@ PAIRS = [
         ["Une action représente une part du capital d'une entreprise. En la détenant, vous devenez actionnaire de cette entreprise."]),
 
 
-    (r"Quels sont les indices de la BRVM\?",
+    (r"Quels sont les indices de la BRVM \?",
      ["Les indices de la BRVM sont: le BRVM composite, le BRVM-30 et le BRVM PRESTIGE"]),
 
-    (r"Où télécharger les rapports annuels\?",
+    (r"Ou télécharger les rapports \?",
      ["Pour telecharger les rapport annuel rendez vous sur le site web dans la rubrique Rapport des societés cotées"]),
 
 
