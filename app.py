@@ -66,7 +66,7 @@ PAIRS = [
      ["Les indices de la BRVM sont: le BRVM composite, le BRVM-30 et le BRVM PRESTIGE"]),
 
     (r"Où télécharger les rapports annuels\?",
-     ["Pour telecharger les rapport annuel rendez vous sur le site web dans la rubrique Rapport des societés cotées"])
+     ["Pour telecharger les rapport annuel rendez vous sur le site web dans la rubrique Rapport des societés cotées"]),
 
 
     (r"c'?est quoi une obligation\??",
