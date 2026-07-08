@@ -61,6 +61,14 @@ PAIRS = [
     (r"c'?est quoi une action\??",
         ["Une action représente une part du capital d'une entreprise. En la détenant, vous devenez actionnaire de cette entreprise."]),
 
+
+    (r"Quels sont les indices de la BRVM\?",
+     ["Les indices de la BRVM sont: le BRVM composite, le BRVM-30 et le BRVM PRESTIGE"]),
+
+    (r"Où télécharger les rapports annuels\?",
+     ["Pour telecharger les rapport annuel rendez vous sur le site web dans la rubrique Rapport des societés cotées"])
+
+
     (r"c'?est quoi une obligation\??",
         ["Une obligation est un titre de créance : en l'achetant, vous prêtez de l'argent à une entreprise ou un État, qui vous rembourse avec des intérêts."]),
 
