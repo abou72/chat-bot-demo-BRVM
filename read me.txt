@@ -1,0 +1,11 @@
+la mise en place d'un chat bot basé sur IA 
+
+cette version est de base. Elle est conçue sur la recherche de mots-clés.
+
+Stream lit a été utilisé dans le développement du chat
+Randon également 
+
+pour le déploiement le projet a été déployer sur Stream lit.
+
+
+a la longue, elle sera connecter a un modèle LLM pour lui permet d'être plus automne 
