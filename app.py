@@ -50,27 +50,48 @@ PAIRS = [
          "Bonjour, comment puis-je vous aider ?"]),
 
     (r"c'?est quoi la brvm\??",
-        ["La BRVM est la Bourse Régionale des Valeurs Mobilières, commune aux 8 pays de l'UEMOA. C'est le lieu ou s'echange les actions et les oblogations"]),
+        ["La BRVM est la Bourse Régionale des Valeurs Mobilières, commune aux 8 pays de l'UEMOA. C'est Lieu où se rencontrent l'offre et la demande de valeurs mobilières"]),
 
     (r"ou se trouve la brvm\??|où se trouve la brvm\??",
         ["Le siège de la BRVM est situé à Abidjan, en Côte d'Ivoire, avec des antennes de représentation dans les différents pays de l'UEMOA."]),
 
-    (r"comment investir a la brvm|comment investir à la brvm",
+    (r"comment investir a la brvm|comment investir à la brvm\??",
         ["Pour investir à la BRVM, vous devez passer par une SGI (Société de Gestion et d'Intermédiation). Vous pourrez ensuite investir sur des actions ou des obligations."]),
 
+    (r"C'est quoi une (SGI)\??",
+        ["Sociéte de gestion et d'intermediation,sociéte agréée par le CREPMF et habilitéé à effectuer l'activité d'intermediation financière sur la BRVM"]),
+
     (r"c'?est quoi une action\??",
-        ["Une action représente une part du capital d'une entreprise. En la détenant, vous devenez actionnaire de cette entreprise."]),
+        ["Valeur mobilière représentant une part de capital d'une société. C’est un titre de propriété."]),
 
+    (r"C'est quoi Un actionnaire\??",
+        ["Le detenteur d'une action est appelé un actionnaire"]),
 
-    (r"Quels sont les indices de la BRVM \?",
-     ["Les indices de la BRVM sont: le BRVM composite, le BRVM-30 et le BRVM PRESTIGE"]),
+    (r"C'est quoi un ordre d'achat\??",
+        ["Decision(ou requete) d'un investisseur portant sur l'acquisition de valeurs mobilières."]),
 
-    (r"Ou télécharger les rapports \?",
+    (r"C'est un ordre de vente\??",
+        ["Décision (ou requete) d'un investisseur portant sur la cession de valeurs mobilierès. "]),
+
+    (r"Quels sont les indices de la BRVM\??",
+     ["Les indices de la BRVM sont: le BRVM composite, le BRVM-10 , le BRVM-30 et le BRVM PRESTIGE"]),
+
+    (r"Brvm-10\??",
+     ["Indice representant la performance de l'ensemble du marché action de la BRVM"]),
+    (r"BRVM Composite",
+     ["Indice représentant la performance de l'ensemble du marché action de la BRVM"]),
+
+    (r"Un indice boursier\??",
+     ["indicateur de la performance d'un marché boursier ou d'un panier de titres"]),
+
+    (r"Ou télécharger les rapports\??",
      ["Pour telecharger les rapport annuel rendez vous sur le site web dans la rubrique Rapport des societés cotées"]),
 
 
     (r"c'?est quoi une obligation\??",
-        ["Une obligation est un titre de créance : en l'achetant, vous prêtez de l'argent à une entreprise ou un État, qui vous rembourse avec des intérêts."]),
+        ["Valeur mobilière représentant une part de dette d'une société, de l'Etat, ou d’une collectivité locale."]),
+    (r"C'est quoi un droit\??",
+        ["Tritre conferant a un actionnaire ordinaire le droit d'acheter d'autres actions à un prix fixé à l'avance"]),
 
     (r"(?=.*sgi)(?=.*trouv)",
         ["Dans quel pays vous trouvez-vous\?"]),
