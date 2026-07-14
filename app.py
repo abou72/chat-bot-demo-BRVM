@@ -2,8 +2,7 @@ import streamlit as st
 import re
 import random
 import unicodedata
-import os
-from definitions_data import DEFINITIONS_BRVM
+
 
 def sans_accents(texte: str) -> str:
     """Enlève les accents pour rendre le matching insensible aux accents."""
@@ -27,6 +26,7 @@ st.set_page_config(
 #  ou dans un sous-dossier "assets/", et ajuste LOGO_PATH si besoin.
 # ─────────────────────────────────────────────
 import os
+from definitions_data import DEFINITIONS_BRVM
 
 LOGO_PATH = "logo_brvm.jpg"
 
@@ -51,60 +51,40 @@ PAIRS = [
          "Bonjour, comment puis-je vous aider ?"]),
 
     (r"c'?est quoi la brvm\??",
-        ["La BRVM est la Bourse Régionale des Valeurs Mobilières, commune aux 8 pays de l'UEMOA. C'est Lieu où se rencontrent l'offre et la demande de valeurs mobilières"]),
+        ["La BRVM est la Bourse Régionale des Valeurs Mobilières, commune aux 8 pays de l'UEMOA. C'est le lieu ou s'echange les actions et les oblogations"]),
 
     (r"ou se trouve la brvm\??|où se trouve la brvm\??",
         ["Le siège de la BRVM est situé à Abidjan, en Côte d'Ivoire, avec des antennes de représentation dans les différents pays de l'UEMOA."]),
 
-    (r"comment investir a la brvm|comment investir à la brvm\??",
+    (r"comment investir a la brvm|comment investir à la brvm",
         ["Pour investir à la BRVM, vous devez passer par une SGI (Société de Gestion et d'Intermédiation). Vous pourrez ensuite investir sur des actions ou des obligations."]),
 
-    (r"C'est quoi une (SGI)\??",
-        ["Sociéte de gestion et d'intermediation,sociéte agréée par le CREPMF et habilitéé à effectuer l'activité d'intermediation financière sur la BRVM"]),
-
     (r"c'?est quoi une action\??",
-        ["Valeur mobilière représentant une part de capital d'une société. C’est un titre de propriété."]),
+        ["Une action représente une part du capital d'une entreprise. En la détenant, vous devenez actionnaire de cette entreprise."]),
 
-    (r"C'est quoi Un actionnaire\??",
-        ["Le detenteur d'une action est appelé un actionnaire"]),
 
-    (r"C'est quoi un ordre d'achat\??",
-        ["Decision(ou requete) d'un investisseur portant sur l'acquisition de valeurs mobilières."]),
+    (r"Quels sont les indices de la BRVM \?",
+     ["Les indices de la BRVM sont: le BRVM composite, le BRVM-30 et le BRVM PRESTIGE"]),
 
-    (r"C'est un ordre de vente\??",
-        ["Décision (ou requete) d'un investisseur portant sur la cession de valeurs mobilierès. "]),
-
-    (r"Quels sont les indices de la BRVM\??",
-     ["Les indices de la BRVM sont: le BRVM composite, le BRVM-10 , le BRVM-30 et le BRVM PRESTIGE"]),
-
-    (r"Brvm-10\??",
-     ["Indice representant la performance de l'ensemble du marché action de la BRVM"]),
-    (r"BRVM Composite",
-     ["Indice représentant la performance de l'ensemble du marché action de la BRVM"]),
-
-    (r"Un indice boursier\??",
-     ["indicateur de la performance d'un marché boursier ou d'un panier de titres"]),
-
-    (r"Ou télécharger les rapports\??",
+    (r"Ou télécharger les rapports \?",
      ["Pour telecharger les rapport annuel rendez vous sur le site web dans la rubrique Rapport des societés cotées"]),
 
 
     (r"c'?est quoi une obligation\??",
-        ["Valeur mobilière représentant une part de dette d'une société, de l'Etat, ou d’une collectivité locale."]),
-    (r"C'est quoi un droit\??",
-        ["Tritre conferant a un actionnaire ordinaire le droit d'acheter d'autres actions à un prix fixé à l'avance"]),
+        ["Une obligation est un titre de créance : en l'achetant, vous prêtez de l'argent à une entreprise ou un État, qui vous rembourse avec des intérêts."]),
 
     (r"(?=.*sgi)(?=.*trouv)",
         ["Dans quel pays vous trouvez-vous\?"]),
 
-    (r"Benin", ["SGI BENIN, AFRICABOURSE, AGI"]),
-    (r"Burkina", ["CORIS BOURSE, SBIF, SA2IF"]),
-    (r"Cote d'ivoire", ["Vous pouvez consulter la liste officielle et à jour des SGI en Côte d'Ivoire sur brvm.org (Annuaire Officiel de l'APSGI)."]),
-    (r"Mali",["SGI MALI, CIFA BOURSE, GLOBAL CAPITAL"]),
-    (r"Niger",["SGI NIGER"]),
-    (r"Senegal",["CGF BOURSE,FGI"]),
-    (r"Togo",["SGI TOGO, CGF BOURSE"]),
-    (r"Guinée-Bissau",["Il y'a pas de SGI agrée pour le moment"]),
+    (r"^(je suis (au|en|a|à)\s+)?benin\s*\??$", ["SGI BENIN, AFRICABOURSE, AGI"]),
+    (r"^(je suis (au|en|a|à)\s+)?burkina(\s*faso)?\s*\??$", ["CORIS BOURSE, SBIF, SA2IF"]),
+    (r"^(je suis (au|en|a|à)\s+)?cote d'?ivoire\s*\??$",
+        ["Vous pouvez consulter la liste officielle et à jour des SGI en Côte d'Ivoire sur brvm.org (Annuaire Officiel de l'APSGI)."]),
+    (r"^(je suis (au|en|a|à)\s+)?mali\s*\??$", ["SGI MALI, CIFA BOURSE, GLOBAL CAPITAL"]),
+    (r"^(je suis (au|en|a|à)\s+)?niger\s*\??$", ["SGI NIGER"]),
+    (r"^(je suis (au|en|a|à)\s+)?senegal\s*\??$", ["CGF BOURSE,FGI"]),
+    (r"^(je suis (au|en|a|à)\s+)?togo\s*\??$", ["SGI TOGO, CGF BOURSE"]),
+    (r"^(je suis (au|en|a|à)\s+)?guinee-?bissau\s*\??$", ["Il y'a pas de SGI agrée pour le moment"]),
 
     (r"horaire|heure de cotation|quand.*cot",
         ["La BRVM cote du lundi au vendredi, de 9h00 à 15h30 (heure d'Abidjan), hors jours fériés."]),
@@ -114,19 +94,18 @@ PAIRS = [
 
     (r"au revoir|bye|a bientot|à bientôt",
         ["Au revoir et à bientôt !"]),
-
-    (r"(.*)",
-        ["Désolé, je ne comprends pas votre question. Essayez de reformuler, ou demandez-moi ce qu'est la BRVM, une action, ou une obligation."]),
 ]
 
-def trouver_reponse(message: str) -> str:
-    """Parcourt les règles dans l'ordre et renvoie la première réponse qui matche."""
+def trouver_reponse(message: str):
+    """Parcourt les règles dans l'ordre et renvoie la première réponse qui matche.
+    Renvoie None si aucune règle ne matche (pour déclencher le fallback IA)."""
     message = sans_accents(message.strip().lower())
     for motif, reponses in PAIRS:
         motif_norm = sans_accents(motif)
         if re.fullmatch(motif_norm, message, re.IGNORECASE) or re.search(motif_norm, message, re.IGNORECASE):
             return random.choice(reponses)
-    return "Désolé, je ne comprends pas votre question."
+    return None
+
 
 # ─────────────────────────────────────────────
 #  LEXIQUE DE DÉFINITIONS BRVM (issu du fichier Word)
@@ -163,6 +142,65 @@ def chercher_definition(message: str):
     return None
 
 
+# ─────────────────────────────────────────────
+#  FALLBACK CLAUDE API (avec mode test)
+# ─────────────────────────────────────────────
+MODE_TEST = False  # ⚠️ Passe à True si tu veux retester sans consommer de crédits API
+MODE_DEBUG = False  # ⚠️ Passe à True temporairement si tu dois déboguer la détection de la clé API
+
+SYSTEME_PROMPT = (
+    "Tu es l'assistant virtuel officiel de la BRVM (Bourse Régionale des "
+    "Valeurs Mobilières). Réponds de façon claire, concise et professionnelle "
+    "en français, uniquement sur des sujets liés à la bourse, aux marchés "
+    "financiers de l'UEMOA, à l'investissement ou à la BRVM."
+)
+
+def obtenir_cle_api():
+    """Récupère la clé API : d'abord via st.secrets (Streamlit Cloud),
+    sinon via la variable d'environnement (test en local)."""
+    try:
+        return st.secrets["ANTHROPIC_API_KEY"]
+    except (KeyError, FileNotFoundError):
+        return os.environ.get("ANTHROPIC_API_KEY")
+
+
+def appeler_claude_api(question: str) -> str:
+    """Appelle l'API Claude en fallback quand le regex ne trouve rien.
+    En MODE_TEST, simule la réponse sans consommer de crédits."""
+    if MODE_TEST:
+        return (f"🤖 [Réponse simulée IA] Voici ce que je répondrais à : "
+                f"« {question} » (mode test actif, aucune requête API envoyée)")
+
+    import anthropic
+
+    api_key = obtenir_cle_api()
+    if not api_key:
+        return "⚠️ Clé API non configurée. Impossible de contacter l'assistant IA."
+
+    try:
+        client = anthropic.Anthropic(api_key=api_key)
+        response = client.messages.create(
+            model="claude-haiku-4-5",
+            max_tokens=300,
+            system=SYSTEME_PROMPT,
+            messages=[{"role": "user", "content": question}]
+        )
+        return response.content[0].text
+    except Exception as e:
+        return f"⚠️ Erreur lors de l'appel à l'API Claude : {e}"
+
+
+def generer_reponse(message: str) -> str:
+    """Ordre de priorité : 1) règles regex, 2) lexique de définitions BRVM, 3) fallback Claude."""
+    reponse_regex = trouver_reponse(message)
+    if reponse_regex:
+        return reponse_regex
+
+    reponse_lexique = chercher_definition(message)
+    if reponse_lexique:
+        return reponse_lexique
+
+    return appeler_claude_api(message)
 
 # ─────────────────────────────────────────────
 #  ÉTAT DE LA CONVERSATION
@@ -175,7 +213,18 @@ if "messages" not in st.session_state:
 # ─────────────────────────────────────────────
 #  INTERFACE
 # ─────────────────────────────────────────────
-st.caption("Démo — moteur basé sur mots-clés (règles + regex). Version future : modèle plus intelligent.")
+st.caption("Démo — moteur basé sur mots-clés (règles + regex), avec bascule vers l'IA en cas de non-reconnaissance.")
+
+with st.sidebar:
+    if MODE_TEST:
+        st.warning("🧪 Mode test actif : le fallback IA est simulé (pas d'appel API réel).")
+
+    if MODE_DEBUG:
+        cle_debug = obtenir_cle_api()
+        if cle_debug:
+            st.info(f"🔑 Clé détectée : {cle_debug[:10]}...{cle_debug[-4:]} (longueur {len(cle_debug)})")
+        else:
+            st.error("🔑 Aucune clé API détectée.")
 
 # Affichage de l'historique
 for msg in st.session_state.messages:
@@ -202,8 +251,8 @@ if message_a_traiter:
     with st.chat_message("user"):
         st.markdown(message_a_traiter)
 
-    # Réponse du bot
-    reponse = trouver_reponse(message_a_traiter)
+    # Réponse du bot (règles d'abord, puis fallback IA si rien ne matche)
+    reponse = generer_reponse(message_a_traiter)
     st.session_state.messages.append({"role": "assistant", "content": reponse})
     with st.chat_message("assistant"):
         st.markdown(reponse)
