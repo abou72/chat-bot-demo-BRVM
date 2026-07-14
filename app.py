@@ -2,7 +2,8 @@ import streamlit as st
 import re
 import random
 import unicodedata
-
+import os
+from definitions_data import DEFINITIONS_BRVM
 
 def sans_accents(texte: str) -> str:
     """Enlève les accents pour rendre le matching insensible aux accents."""
@@ -126,6 +127,42 @@ def trouver_reponse(message: str) -> str:
         if re.fullmatch(motif_norm, message, re.IGNORECASE) or re.search(motif_norm, message, re.IGNORECASE):
             return random.choice(reponses)
     return "Désolé, je ne comprends pas votre question."
+
+# ─────────────────────────────────────────────
+#  LEXIQUE DE DÉFINITIONS BRVM (issu du fichier Word)
+# ─────────────────────────────────────────────
+def _preparer_index_lexique():
+    """Construit une liste de (mots-clés normalisés, terme original, définition),
+    triée pour que les termes les plus longs/spécifiques soient testés en premier."""
+    index = []
+    for terme, definition in DEFINITIONS_BRVM.items():
+        cles = {sans_accents(terme.lower())}
+        # Sigle entre parenthèses, ex: "FONDS COMMUN DE PLACEMENT (FCP)" -> "fcp"
+        m = re.search(r"\(([A-Za-zÀ-ÿ]{2,8})\)", terme)
+        if m:
+            cles.add(sans_accents(m.group(1).lower()))
+        # Sigle placé AVANT la parenthèse, ex: "PER (Price Earning Ratio) – ..." -> "per"
+        avant_parenthese = terme.split("(")[0].strip()
+        if avant_parenthese and len(avant_parenthese) <= 8 and " " not in avant_parenthese:
+            cles.add(sans_accents(avant_parenthese.lower()))
+        index.append((cles, terme, definition))
+    # Termes les plus longs en premier pour éviter qu'un terme court («action»)
+    # n'intercepte une question visant un terme plus spécifique («action privilégiée»)
+    index.sort(key=lambda x: max(len(c) for c in x[0]), reverse=True)
+    return index
+
+_INDEX_LEXIQUE = _preparer_index_lexique()
+
+def chercher_definition(message: str):
+    """Cherche si le message correspond à un terme du lexique BRVM (mot entier, insensible aux accents/casse)."""
+    message_norm = sans_accents(message.strip().lower())
+    for cles, terme, definition in _INDEX_LEXIQUE:
+        for cle in cles:
+            if re.search(r"(?<!\w)" + re.escape(cle) + r"(?!\w)", message_norm):
+                return f"**{terme}** — {definition}"
+    return None
+
+
 
 # ─────────────────────────────────────────────
 #  ÉTAT DE LA CONVERSATION
